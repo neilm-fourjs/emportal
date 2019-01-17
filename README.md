@@ -18,3 +18,5 @@ Either use GeneroStudios main UI or build from command line using:
 ```
 gsmake emportal.4pw
 ```
+
+Demo Login: test@test.com / Testing123

@@ -66,7 +66,7 @@
   <Group environment="value:FGLPROFILE=../etc/profile" label="Group" language="Genero">
     <Library binaryName="Databases" id="1986" label="Databases">
       <File filePath="src/dbname.inc"/>
-      <File filePath="../../../../../opt/fourjs/all/my_github/employee_portal/etc/emportal.4db"/>
+      <File filePath="etc/emportal.4db"/>
       <File filePath="src/schema.inc"/>
     </Library>
     <Application binaryName="emportal" dependencies="14000,1986,1582713706" id="18736" label="emportal">

@@ -43,7 +43,7 @@ MAIN
 	END TRY
 
 	LET l_email = "test@test.com"
-	LET l_login_pass = "T3st.T3st"
+	LET l_login_pass = "Testing123"
 	LET l_hash_type = lib_secure.glsec_getHashType()
 	LET l_salt = lib_secure.glsec_genSalt(l_hash_type)
 	LET l_pass_hash = lib_secure.glsec_genPasswordHash( l_login_pass, l_salt, l_hash_type )
