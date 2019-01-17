@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<APPLICATION Parent="defaultwa"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.4js.com/ns/gas/3.10/cfextwa.xsd">
+
+  <RESOURCE Id="res.path.emportal" Source="INTERNAL">$(res.deployment.path)</RESOURCE>
+  <EXECUTION>
+    <ENVIRONMENT_VARIABLE Id="FGLRESOURCEPATH">$(res.path.emportal)/etc</ENVIRONMENT_VARIABLE>
+    <ENVIRONMENT_VARIABLE Id="FGLPROFILE">$(res.path.emportal)/etc/profile</ENVIRONMENT_VARIABLE>
+    <ENVIRONMENT_VARIABLE Id="DBDATE">DMY4/</ENVIRONMENT_VARIABLE>
+    <ENVIRONMENT_VARIABLE Id="DBNAME">emportal</ENVIRONMENT_VARIABLE>
+    <PATH>$(res.path.emportal)/bin</PATH>
+    <MODULE>emportal.42r</MODULE>
+  </EXECUTION>
+</APPLICATION>

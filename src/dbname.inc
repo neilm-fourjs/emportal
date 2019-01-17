@@ -1,0 +1,2 @@
+
+&define DBNAME "emportal"
