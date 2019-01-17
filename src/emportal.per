@@ -9,18 +9,18 @@ END -- TB
 LAYOUT (TEXT=%"Employee Portal", WINDOWSTYLE="main2", IMAGE="fa-user")
 GRID
 {
-[info                                      ]
-[                                          ]
-[note                                      ]
+[ :                 :wel:                : ]
 --------------------------------------------
-[:                  :wel:                 :]
-[sp1                :a  :sp2               ]
 [""]
 [ :act1                                  : ]
 [ :act2                                  : ]
 [ :act3                                  : ]
 [ :act4                                  : ]
-
+[""]
+[ :sp1               :a:sp2              : ]
+[ :info                                  : ]
+[                                          ]
+[ :note                                  : ]
 }
 END -- GRID
 
@@ -30,7 +30,7 @@ LABEL note : note, TEXT=%"NOTE: demo login: test@test.com / Testing123", STYLE="
 LABEL wel = FORMONLY.wel, SIZEPOLICY=DYNAMIC, STYLE="big";
 
 IMAGE sp1 : spacer, IMAGE="fa-fw", STRETCH=X, STYLE="noborder";
-IMAGE a : a IMAGE="fa-user",SIZEPOLICY=DYNAMIC, STYLE="noborder center", AUTOSCALE, STRETCH=BOTH;
+IMAGE a : a IMAGE="fa-user", STYLE="noborder", AUTOSCALE;
 IMAGE sp2 : spacer, IMAGE="fa-fw", STRETCH=X, STYLE="noborder";
 
 BUTTON act1 : act1, TEXT=%"Details";

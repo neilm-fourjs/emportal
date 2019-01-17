@@ -44,8 +44,6 @@
 	</Style>
 
 	<Style name=".login">
-		<!--StyleAttribute name="backgroundColor" value="white" /-->
-		<StyleAttribute name="textColor" value="black" />
 		<StyleAttribute name="windowType" value="modal" />
 		<StyleAttribute name="border" value="tool" />
 		<StyleAttribute name="actionPanelPosition" value="none" />
@@ -54,9 +52,6 @@
 		<StyleAttribute name="statusBarType" value="panels1" />
 	</Style>
 
-	<Style name="Label">
-		<StyleAttribute name="textColor" value="darkblue" />
-	</Style>
 	<Style name="ToolBar">
 		<StyleAttribute name="scaleIcon" value="32px" />
 	</Style>
@@ -65,9 +60,6 @@
 	</Style>
 	<Style name="Button">
 		<StyleAttribute name="scaleIcon" value="32px" />
-	</Style>
-	<Style name="Button.login">
-		<StyleAttribute name="textColor" value="white" />
 	</Style>
 	<Style name="Button.small">
 		<StyleAttribute name="scaleIcon" value="12px" />
@@ -83,7 +75,6 @@
 		<StyleAttribute name="windowType" value="normal" />
     <StyleAttribute name="actionPanelPosition" value="none" />
 		<StyleAttribute name="ringMenuPosition" value="none" />
-		<StyleAttribute name="defaultTTFColor" value="darkblue" />
 	</Style>
 	<Style name="Window.main">
 		<StyleAttribute name="windowType" value="normal" />

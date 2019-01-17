@@ -56,7 +56,7 @@ f003 = FORMONLY.l_pass1, INVISIBLE, REQUIRED, NOT NULL;
 f004 = FORMONLY.l_pass2, INVISIBLE, REQUIRED, NOT NULL;
 TEXTEDIT l_rules = FORMONLY.l_rules, SCROLLBARS=NONE,STRETCH=BOTH,STYLE="small";
 
-BUTTON cancel : cancel, TEXT="Cancel Login",STYLE="login",IMAGE="fa-times-circle";
-BUTTON accept : accept, TEXT=%"Login",IMAGE="fa-user", STYLE="login";
-BUTTON newacc : acct_new, TEXT=%"Create New Account", STYLE="login";
-BUTTON forgotten : forgotten, TEXT=%"Reset Password?", IMAGE="fa-question-circle", STYLE="login";
+BUTTON accept : accept, TEXT=%"Login",IMAGE="fa-user";
+BUTTON newacc : acct_new, TEXT=%"Create New Account";
+BUTTON forgotten : forgotten, TEXT=%"Reset Password?", IMAGE="fa-question-circle";
+BUTTON cancel : cancel, TEXT="Cancel Login",IMAGE="fa-times-circle";
