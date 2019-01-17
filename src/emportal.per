@@ -16,8 +16,11 @@ GRID
 [:                  :wel:                 :]
 [sp1                :a  :sp2               ]
 [""]
-[msg1                                      ]
-[msg2                                      ]
+[ :act1                                  : ]
+[ :act2                                  : ]
+[ :act3                                  : ]
+[ :act4                                  : ]
+
 }
 END -- GRID
 
@@ -30,5 +33,7 @@ IMAGE sp1 : spacer, IMAGE="fa-fw", STRETCH=X, STYLE="noborder";
 IMAGE a : a IMAGE="fa-user",SIZEPOLICY=DYNAMIC, STYLE="noborder center", AUTOSCALE, STRETCH=BOTH;
 IMAGE sp2 : spacer, IMAGE="fa-fw", STRETCH=X, STYLE="noborder";
 
-LABEL msg1 = FORMONLY.msg1, SIZEPOLICY=DYNAMIC, STYLE="small";
-LABEL msg2 = FORMONLY.msg2, SIZEPOLICY=DYNAMIC, STYLE="small";
+BUTTON act1 : act1, TEXT=%"Details";
+BUTTON act2 : act2, TEXT=%"Pay Slips";
+BUTTON act3 : act3, TEXT=%"Holidays";
+BUTTON act4 : act4, TEXT=%"Suggestions";

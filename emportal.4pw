@@ -80,6 +80,7 @@
     </Library>
     <Library binaryName="gas" id="-406832580" label="gas">
       <File filePath="gas/emportal.xcf"/>
+      <File filePath="gas/emportal1.xcf"/>
     </Library>
     <Library binaryName="gl_lib" dependencies="1986" id="14000" label="gl_lib">
       <File filePath="src/gl_lib.4gl"/>

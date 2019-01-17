@@ -30,16 +30,28 @@ MAIN
 
 	DISPLAY "Welcome - please login" TO wel
 
-	DISPLAY "DB:"||gl_lib.m_dbname TO msg1
-	DISPLAY "IMGPATH:"||NVL(fgl_getEnv("FGLIMAGEPATH"),"NULL") TO msg2
-
 	MENU
 		ON ACTION close EXIT MENU
+		BEFORE MENU
+			CALL DIALOG.setActionActive("act1", FALSE)
+			CALL DIALOG.setActionActive("act2", FALSE)
+			CALL DIALOG.setActionActive("act3", FALSE)
+			CALL DIALOG.setActionActive("act4", FALSE)
+
 		ON ACTION login
 			LET l_login = do_login()
 			IF l_login IS NOT NULL THEN
 				DISPLAY SFMT(%"Welcome %1",l_login) TO wel
+				CALL DIALOG.setActionActive("act1", TRUE)
+				CALL DIALOG.setActionActive("act2", TRUE)
+				CALL DIALOG.setActionActive("act3", TRUE)
+				CALL DIALOG.setActionActive("act4", TRUE)
 			END IF
+
+		ON ACTION act1 CALL fgl_winMessage("Demo","Not Done Yet","information")
+		ON ACTION act2 CALL fgl_winMessage("Demo","Not Done Yet","information")
+		ON ACTION act3 CALL fgl_winMessage("Demo","Not Done Yet","information")
+		ON ACTION act4 CALL fgl_winMessage("Demo","Not Done Yet","information")
 
 		ON ACTION quit EXIT MENU
 	END MENU
