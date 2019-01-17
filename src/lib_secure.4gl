@@ -24,9 +24,8 @@ IMPORT util
 IMPORT FGL gl_lib
 
 -- For Genero 3.10 we are going to default to BCRYPT
-&ifdef G310
 &define BCRYPT
-&endif
+
 
 -- Private variables:
 DEFINE m_doc xml.domDocument
@@ -66,7 +65,7 @@ END FUNCTION
 #+
 #+ @return string
 FUNCTION glsec_getHashType()
-&ifdef G310
+&ifdef BCRYPT
 	RETURN "BCRYPT"
 &else
 	RETURN "SHA512"
@@ -83,7 +82,6 @@ FUNCTION glsec_genSalt(l_hashtype)
 		LET l_hashtype = glsec_getHashType()
 	END IF
 	CASE l_hashtype
-&ifdef G310
 		WHEN "BCRYPT"
 			CALL gl_logIt( "Generating BCrypt Salt" )
 			TRY
@@ -91,7 +89,6 @@ FUNCTION glsec_genSalt(l_hashtype)
 			CATCH
 				CALL gl_logIt( "ERROR:"||STATUS||":"||SQLCA.SQLERRM)
 			END TRY
-&endif
 		WHEN "SHA512"
 			CALL gl_logIt( "Generating Random Salt" )
 			LET l_salt = security.RandomGenerator.CreateRandomString( 16 )
@@ -125,11 +122,9 @@ FUNCTION glsec_genPasswordHash(l_pass,l_salt,l_hashtype)
 	END IF
 	TRY
 		CASE l_hashtype
-&ifdef G310
 			WHEN "BCRYPT"
 				CALL gl_logIt( "Generating BCrypt HashPassword" )
 				LET l_hash = Security.BCrypt.HashPassword(l_pass, l_salt)
-&endif
 			WHEN "SHA512"
 				CALL gl_logIt( "Generating "||l_hashtype||" HashPassword" )
 				LET l_hash = l_pass||l_salt
@@ -166,7 +161,6 @@ FUNCTION glsec_chkPassword(l_pass,l_passhash,l_salt,l_hashtype)
 		LET l_hashtype = glsec_getHashType()
 	END IF
 	CASE l_hashtype
-&ifdef G310
 		WHEN "BCRYPT"
 			CALL gl_logIt("checking password using BCRYPT")
 			TRY
@@ -177,7 +171,6 @@ FUNCTION glsec_chkPassword(l_pass,l_passhash,l_salt,l_hashtype)
 			CATCH
 				CALL gl_logIt( "ERROR:"||STATUS||":"||SQLCA.SQLERRM)
 			END TRY
-&endif
 		WHEN "SHA512"
 			CALL gl_logIt("checking password using "||l_hashtype)
 			LET l_hash = glsec_genPasswordHash(l_pass, l_salt, l_hashtype)

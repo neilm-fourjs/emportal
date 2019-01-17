@@ -43,7 +43,7 @@ LABEL titl : titl,TEXT=%"Welcome",STYLE="titl";
 LABEL l001 : lemail,TEXT=%"Email:",COMMENT=%"Your Email address", STYLE="bold";
 LABEL l002 : lpassw,TEXT=%"Password:", STYLE="bold";
 
-f001 = FORMONLY.l_login, NOT NULL,COMMENT=%"Your Email address", PLACEHOLDER=%"Email Address", REQUIRED;
+f001 = FORMONLY.l_login, NOT NULL,COMMENT=%"Your Email address", PLACEHOLDER=%"Email Address", DOWNSHIFT, REQUIRED;
 
 f002 = FORMONLY.l_pass, INVISIBLE, REQUIRED, NOT NULL;
 
