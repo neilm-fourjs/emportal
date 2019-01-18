@@ -63,13 +63,15 @@
   </Settings>
   <LanguageList version="1.0"/>
   <PlatformList version="1.0"/>
-  <Group environment="value:FGLPROFILE=../etc/profile" label="Group" language="Genero">
+  <Group environment="value:LANG=ar_AE.8859-6,value:FGLPROFILE=../etc/profile" label="Group" language="Genero">
     <Library binaryName="Databases" id="1986" label="Databases">
       <File filePath="src/dbname.inc"/>
       <File filePath="etc/emportal.4db"/>
       <File filePath="src/schema.inc"/>
     </Library>
     <Application binaryName="emportal" dependencies="14000,1986,1582713706" id="18736" label="emportal">
+      <File filePath="src/em_details.4gl"/>
+      <File filePath="src/em_details.per"/>
       <File filePath="src/emportal.4gl"/>
       <File filePath="src/emportal.per"/>
     </Application>
@@ -80,7 +82,7 @@
     </Library>
     <Library binaryName="gas" id="-406832580" label="gas">
       <File filePath="gas/emportal.xcf"/>
-      <File filePath="gas/emportal1.xcf"/>
+      <File filePath="gas/emportald.xcf"/>
     </Library>
     <Library binaryName="gl_lib" dependencies="1986" id="14000" label="gl_lib">
       <File filePath="src/gl_lib.4gl"/>

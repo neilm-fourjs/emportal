@@ -36,6 +36,7 @@ FUNCTION db_connect()
 		CONNECT TO l_dbname
 	CATCH
 		CALL gl_winMessage("Error",SFMT(%"Failed to connect to %1\n%2:%3",l_dbname,STATUS,SQLERRMESSAGE),"exclamation")
+		EXIT PROGRAM
 	END TRY
 END FUNCTION
 

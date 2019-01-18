@@ -3,12 +3,13 @@
 #+
 
 IMPORT os
-IMPORT FGL lib_secure
 IMPORT FGL gl_lib
+IMPORT FGL lib_secure
+
 &include "schema.inc"
 
 CONSTANT EMAILPROG = "sendemail.sh" --"fglrun sendemail.42r"
-
+CONSTANT C_DEFPASSLEN = 12 -- should match value in lib_secure!
 --------------------------------------------------------------------------------
 #+ Login function - One day when this program grows up it will have single signon 
 #+ then hackers only have one password to crack :)
@@ -69,7 +70,7 @@ END FUNCTION
 #+ @return true if exists else false
 PUBLIC FUNCTION sql_checkEmail(l_email)
 	DEFINE l_email VARCHAR(60)
-	SELECT * FROM accounts WHERE email = l_email
+	SELECT * FROM DEF_LOGIN_TABLE WHERE email = l_email
 	IF STATUS = NOTFOUND THEN RETURN FALSE END IF
 	RETURN TRUE
 END FUNCTION
@@ -80,35 +81,33 @@ END FUNCTION
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-PRIVATE FUNCTION validate_login(l_login,l_pass)
-	DEFINE l_login LIKE accounts.email
-	DEFINE l_pass LIKE accounts.login_pass
-	DEFINE l_acc RECORD LIKE accounts.*
+PRIVATE FUNCTION validate_login(l_login LIKE DEF_LOGIN_TABLE.email, l_pass STRING) RETURNS BOOLEAN
+	DEFINE l_rec RECORD LIKE DEF_LOGIN_TABLE.*
 
 -- does account exist?
-	SELECT * INTO l_acc.* FROM accounts WHERE email = l_login
+	SELECT * INTO l_rec.* FROM DEF_LOGIN_TABLE WHERE email = l_login
 	IF STATUS = NOTFOUND THEN
 		CALL gl_logIt("No account for:"||l_login)
 		RETURN FALSE
 	END IF
 
 -- is password correct?
-	IF NOT lib_secure.glsec_chkPassword(l_pass,l_acc.pass_hash,l_acc.salt,l_acc.hash_type) THEN
-		DISPLAY "Hash wrong for:",l_login," PasswordHash:",l_acc.pass_hash, " Hashtype:",l_acc.hash_type
+	IF NOT lib_secure.glsec_chkPassword(l_pass.trim(),l_rec.pass_hash,l_rec.salt,l_rec.hash_type) THEN
+		DISPLAY "Hash wrong for:",l_login, " Pass:",l_pass.trim()," PasswordHash:",l_rec.pass_hash, " Hashtype:",l_rec.hash_type
 		RETURN FALSE
 	END IF
 
 -- Has the password expired?
-	IF l_acc.pass_expire IS NOT NULL AND l_acc.pass_expire > DATE("01/01/1990") THEN
-		IF l_acc.pass_expire <= TODAY THEN
-			CALL gl_lib.gl_logIt("Password has expired:"||l_acc.pass_expire)
+	IF l_rec.pass_expire IS NOT NULL AND l_rec.pass_expire > DATE("01/01/1990") THEN
+		IF l_rec.pass_expire <= TODAY THEN
+			CALL gl_lib.gl_logIt("Password has expired:"||l_rec.pass_expire)
 			CALL gl_lib.gl_winMessage(%"Error",%"Your password has expired!\nYou will need to create a new one!","exclamation")
-			LET l_acc.forcepwchg = "Y" 
+			LET l_rec.forcepwchg = "Y" 
 		END IF
 	END IF
 
 -- do we need to force a password change?
-	IF l_acc.forcepwchg = "Y" THEN
+	IF l_rec.forcepwchg = "Y" THEN
 		IF NOT passchg(l_login) THEN
 			RETURN FALSE
 		END IF
@@ -122,9 +121,9 @@ END FUNCTION
 #+
 #+ @param l_login - String - email address to send email to
 PRIVATE FUNCTION forgotten(l_login)
-	DEFINE l_login LIKE accounts.email
-	DEFINE l_acc RECORD LIKE accounts.*
-	DEFINE l_cmd, l_subj, l_body, l_b64 STRING
+	DEFINE l_login LIKE DEF_LOGIN_TABLE.email
+	DEFINE l_rec RECORD LIKE DEF_LOGIN_TABLE.*
+	DEFINE l_login_pass, l_cmd, l_subj, l_body, l_b64 STRING
 	DEFINE l_ret SMALLINT
 
 	IF l_login IS NULL OR l_login = " " THEN
@@ -144,13 +143,13 @@ PRIVATE FUNCTION forgotten(l_login)
 
 	CALL gl_lib.gl_logIt("Password regenerated for:"||l_login)
 
-	LET l_acc.pass_expire = TODAY + 2
-	LET l_acc.login_pass = lib_secure.glsec_genPassword()
-	LET l_acc.hash_type = lib_secure.glsec_getHashType()
-	LET l_acc.salt = lib_secure.glsec_genSalt(l_acc.hash_type)
-	LET l_acc.pass_hash = lib_secure.glsec_genPasswordHash(l_acc.login_pass ,l_acc.salt,l_acc.hash_type)
-	LET l_acc.forcepwchg = "Y"
-	LET l_b64 = lib_secure.glsec_toBase64( l_acc.pass_hash )
+	LET l_rec.pass_expire = TODAY + 2
+	LET l_login_pass = lib_secure.glsec_genPassword()
+	LET l_rec.hash_type = lib_secure.glsec_getHashType()
+	LET l_rec.salt = lib_secure.glsec_genSalt(l_rec.hash_type)
+	LET l_rec.pass_hash = lib_secure.glsec_genPasswordHash(l_login_pass ,l_rec.salt,l_rec.hash_type)
+	LET l_rec.forcepwchg = "Y"
+	LET l_b64 = lib_secure.glsec_toBase64( l_rec.pass_hash )
 -- Need to actually send email!!
 	LET l_subj = %"Password Reset"
 	LET l_body = 
@@ -170,7 +169,7 @@ PRIVATE FUNCTION forgotten(l_login)
 	IF l_ret = 0 THEN -- email send okay
 		UPDATE accounts 
 			SET (salt, pass_hash, forcepwchg, pass_expire) = 
-					(l_acc.salt, l_acc.pass_hash, l_acc.forcepwchg, l_acc.pass_expire )
+					(l_rec.salt, l_rec.pass_hash, l_rec.forcepwchg, l_rec.pass_expire )
 			WHERE email = l_login
 		CALL gl_lib.gl_winMessage(%"Password Reset",%"A Link has been emailed to you","information")
 	ELSE -- email send failed
@@ -194,19 +193,17 @@ PRIVATE FUNCTION login_ver_title(l_appname,l_ver)
 	END IF
 END FUNCTION
 --------------------------------------------------------------------------------
-PRIVATE FUNCTION passchg(l_login)
-	DEFINE l_login LIKE accounts.email
-	DEFINE l_pass1, l_pass2 LIKE accounts.login_pass
-	DEFINE w ui.Window
+PRIVATE FUNCTION passchg(l_login) RETURNS BOOLEAN
+	DEFINE l_login LIKE DEF_LOGIN_TABLE.email
+	DEFINE l_pass1, l_pass2 CHAR( C_DEFPASSLEN )
 	DEFINE f ui.Form
 	DEFINE l_rules STRING
-	DEFINE l_acc RECORD LIKE accounts.*
+	DEFINE l_rec RECORD LIKE DEF_LOGIN_TABLE.*
 
 	LET l_pass1 = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 	LET l_rules = lib_secure.glsec_passwordRules( LENGTH(l_pass1) )
 
-	LET w = ui.Window.getCurrent()
-	LET f = w.getForm()
+	LET f = ui.Window.getCurrent().getForm()
 	CALL f.setElementHidden("grp2",FALSE)
 	DISPLAY BY NAME l_rules, l_login
 	
@@ -230,16 +227,15 @@ PRIVATE FUNCTION passchg(l_login)
 		EXIT WHILE
 	END WHILE
 
-	LET l_acc.login_pass = l_pass1
-	LET l_acc.hash_type = lib_secure.glsec_getHashType()
-	LET l_acc.salt = lib_secure.glsec_genSalt(l_acc.hash_type)
-	LET l_acc.pass_hash = lib_secure.glsec_genPasswordHash(l_acc.login_pass ,l_acc.salt,l_acc.hash_type)
-	LET l_acc.forcepwchg = "N"
-	LET l_acc.pass_expire = NULL
-	--DISPLAY "New Hash:",l_acc.pass_hash
-	UPDATE accounts 
+	LET l_rec.hash_type = lib_secure.glsec_getHashType()
+	LET l_rec.salt = lib_secure.glsec_genSalt(l_rec.hash_type)
+	LET l_rec.pass_hash = lib_secure.glsec_genPasswordHash(l_pass1 ,l_rec.salt,l_rec.hash_type)
+	LET l_rec.forcepwchg = "N"
+	LET l_rec.pass_expire = NULL
+	--DISPLAY "New Hash:",l_rec.pass_hash
+	UPDATE DEF_LOGIN_TABLE 
 		SET (salt, pass_hash, forcepwchg, pass_expire, hash_type) = 
-				(l_acc.salt, l_acc.pass_hash, l_acc.forcepwchg, l_acc.pass_expire, l_acc.hash_type)
+				(l_rec.salt, l_rec.pass_hash, l_rec.forcepwchg, l_rec.pass_expire, l_rec.hash_type)
 		WHERE email = l_login
 
 	CALL gl_lib.gl_winMessage(%"Comfirmation",%"Your password has be updated, please don't forget it.\nWe cannot retrieve this password, only reset it.\n","exclamation")

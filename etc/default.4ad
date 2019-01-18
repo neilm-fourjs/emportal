@@ -33,6 +33,7 @@
 	<ActionDefault name="cancel" validate="no" text="Cancel" image="cancel2" acceleratorName="Escape" contextMenu="no"/>
 	<ActionDefault name="exit" validate="no" text="Exit" image="exit2" acceleratorName="Escape" contextMenu="no"/>
 	<ActionDefault name="about" validate="no" text="About" image="about" comment="About this program" acceleratorName="f1" contextMenu="no"/>
+	<ActionDefault name="back" validate="no" text="Back" image="fa-chevron-left" acceleratorName="Escape" contextMenu="no"/>
 
 	<ActionDefault name="refresh" text="Refresh" image="switch" comment="Refresh the list" contextMenu="yes"/>
 	<ActionDefault name="delete" validate="no" text="Delete" image="delete2" comment="Delete the record" contextMenu="yes"/>

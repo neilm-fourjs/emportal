@@ -1,24 +1,49 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<Schema id="{e5e60eff-379b-4a3b-b5fc-384a8a2f956d}" version="4.0">
+<?xml version="1.0" encoding="UTF-8" ?>
+<Schema gstVersion="30a0a" id="{e5e60eff-379b-4a3b-b5fc-384a8a2f956d}" version="4.0">
+  <AGSettings version="1.1">
+    <DynamicProperties version="2">
+      <DynamicProperty description="Associated label when generating form" initialValue="" isDefaultInherited="false" isHidden="false" label="Label" name="label" readOnly="false" type="TEXT"/>
+      <DynamicProperty description="Associated widget" editorInfo="contains:ButtonEdit|CheckBox|ComboBox|DateEdit|DateTimeEdit|Edit|FFImage|FFLabel|Field|Phantom|ProgressBar|RadioGroup|Slider|SpinEdit|TextEdit|TimeEdit" initialValue="Edit" isDefaultInherited="false" isHidden="false" label="Widget" name="widget" readOnly="false" type="ENUM"/>
+      <DynamicPropertyGroup collapsed="false" description="Formfied properties" label="Formfield" name="formfieldGroup" properties="label;widget"/>
+    </DynamicProperties>
+    <NodeInfos version="1">
+      <NodeInfo mimeType="db/column" properties="widget;label"/>
+    </NodeInfos>
+  </AGSettings>
   <ExtractionSettings last="SQLite">
     <ExtractionOptions casens="LowerCase" cvmeth="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ignerr="true" systab="false" type="SQLite"/>
   </ExtractionSettings>
-  <Table name="accounts" isView="false" status="U">
-    <Column fglLength="4" fglType="262" name="acct_id" notNull="true" order="1" status="U"/>
-    <Column fglLength="60" fglType="201" name="salutation" notNull="false" order="2" status="U"/>
-    <Column fglLength="60" fglType="457" name="forenames" notNull="true" order="3" status="U"/>
-    <Column fglLength="60" fglType="457" name="surname" notNull="true" order="4" status="U"/>
-    <Column fglLength="60" fglType="201" name="position" notNull="false" order="5" status="U"/>
-    <Column fglLength="60" fglType="457" name="email" notNull="true" order="6" status="U"/>
-    <Column fglLength="60" fglType="201" name="comment" notNull="false" order="7" status="U"/>
-    <Column fglLength="2" fglType="1" name="acct_type" notNull="false" order="8" status="U"/>
-    <Column fglLength="2" fglType="257" name="active" notNull="true" order="9" status="U"/>
-    <Column fglLength="1" fglType="0" name="forcepwchg" notNull="false" order="10" status="U"/>
-    <Column fglLength="12" fglType="457" name="hash_type" notNull="true" order="11" status="U"/>
-    <Column fglLength="16" fglType="201" name="login_pass" notNull="false" order="12" status="U"/>
-    <Column fglLength="64" fglType="201" name="salt" notNull="false" order="13" status="U"/>
-    <Column fglLength="128" fglType="457" name="pass_hash" notNull="true" order="14" status="U"/>
-    <Column fglLength="4" fglType="7" name="pass_expire" notNull="false" order="15" status="U"/>
-    <Index indexColumns="acct_id" indexConstraint="primaryKey" name="primary_key_accounts" status="U"/>
+  <Table active="true" name="app_users" status="U" uuid="db/table1">
+    <Column fglLength="4" fglType="6" name="acct_id" notNull="true" order="1" status="U" uuid="db/column1"/>
+    <Column fglLength="4" fglType="2" name="employee_no" notNull="false" order="2" status="U" uuid="db/column3"/>
+    <Column fglLength="60" fglType="201" name="salutation" notNull="false" order="3" status="U" uuid="db/column5"/>
+    <Column fglLength="60" fglType="201" name="forenames" notNull="true" order="4" status="U" uuid="db/column7"/>
+    <Column fglLength="60" fglType="201" name="surname" notNull="true" order="5" status="U" uuid="db/column9"/>
+    <Column fglLength="60" fglType="201" name="position" notNull="false" order="6" status="U" uuid="db/column11"/>
+    <Column fglLength="60" fglType="201" name="email" notNull="true" order="7" status="U" uuid="db/column13"/>
+    <Column fglLength="60" fglType="201" name="primary_role" notNull="false" order="8" status="U" uuid="db/column36"/>
+    <Column fglLength="4" fglType="7" name="start_date" notNull="false" order="9" status="U" uuid="db/column17"/>
+    <Column fglLength="4" fglType="7" name="termination_date" notNull="false" order="10" status="U" uuid="db/column19"/>
+    <Column fglLength="4" fglType="7" name="dob" notNull="false" order="11" status="U" uuid="db/column21"/>
+    <Column fglLength="2" fglType="1" name="holiday_days" notNull="false" order="12" status="U" uuid="db/column23"/>
+    <Column fglLength="2" fglType="1" name="holiday_days_left" notNull="false" order="13" status="U" uuid="db/column25"/>
+    <Index indexColumns="acct_id" indexConstraint="primaryKey" name="primary_key_app_users" status="U" uuid="db/index1"/>
   </Table>
+  <Table active="true" name="login_users" status="U" uuid="db/table3">
+    <Column fglLength="60" fglType="201" name="email" notNull="true" order="1" status="U" uuid="db/column27"/>
+    <Column fglLength="2" fglType="1" name="active" notNull="true" order="2" status="U" uuid="db/column29"/>
+    <Column fglLength="1" fglType="0" name="forcepwchg" notNull="false" order="3" status="U" uuid="db/column31"/>
+    <Column fglLength="12" fglType="201" name="hash_type" notNull="true" order="4" status="U" uuid="db/column32"/>
+    <Column fglLength="64" fglType="201" name="salt" notNull="false" order="5" status="U" uuid="db/column33"/>
+    <Column fglLength="128" fglType="201" name="pass_hash" notNull="true" order="6" status="U" uuid="db/column34"/>
+    <Column fglLength="4" fglType="7" name="pass_expire" notNull="false" order="7" status="U" uuid="db/column35"/>
+    <Column fglLength="2" fglType="1" name="acc_type" notNull="false" order="8" status="U" uuid="db/column2"/>
+  </Table>
+  <Views ActiveView="View-1" showLabels="true">
+    <View Name="View-1">
+      <Layout>
+        <![CDATA[AAAAAgAAABIAZABiAC8AdABhAGIAbABlADEAAAAAAAAAAEAy0tLUAAAAAAAAAAAAAAABAAAAEgBkAGIALwB0AGEAYgBsAGUAM0B3eHh58AAAQDS0tLYAAAA/YGJN0vGp/AE=]]>
+      </Layout>
+    </View>
+  </Views>
 </Schema>

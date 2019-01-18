@@ -1,0 +1,90 @@
+
+&include "schema.inc"
+
+TOOLBAR
+	ITEM back
+	ITEM accept
+	ITEM cancel
+END -- Toolbar
+
+LAYOUT ( TEXT=%"Employ Details", WINDOWSTYLE="main2", IMAGE="fa-user" )
+GRID
+{
+[acct_id   |f001        ]
+[email     |f007                                               ]
+[user_type |f009        ]
+[active    |a]
+[forcepwch |b]
+[passexp   |p002             ]
+[""]
+[passwd    |p001                              ]
+[rules                                                            ]
+[                                                                 ]
+[                                                                 ]
+[                                                                 ]
+[""]
+[emp_no    |f002           ]
+[salutation|f003        ]
+[forenames |f004                                               ]
+[surname   |f005                              ]
+[position  |f006                                               ]
+[prole     |f008                                               ]
+           [                                                   ]
+[st_date   |a001        ]
+[ed_date   |a002        ]
+[dob       |a003        ]
+[holi_days |a004 ]
+[holi_daysl|a005 ]
+}
+END -- GRID
+END -- LAYOUT
+
+TABLES
+DEF_LOGIN_TABLE
+DEF_APPUSERS_TABLE
+
+ATTRIBUTES
+LABEL email			 : em, TEXT=%"Email:",JUSTIFY=RIGHT;
+f007 = DEF_LOGIN_TABLE.email, NOT NULL, REQUIRED, TABINDEX=1;
+LABEL active		 : ac, TEXT=%"Active:",JUSTIFY=RIGHT;
+CHECKBOX a = DEF_LOGIN_TABLE.active,VALUECHECKED=1,VALUEUNCHECKED=0,DEFAULT=1,NOT NULL;
+LABEL forcepwch  : fp, TEXT=%"Force Pass Change:",JUSTIFY=RIGHT;
+CHECKBOX b = DEF_LOGIN_TABLE.forcepwchg, VALUECHECKED="Y", VALUEUNCHECKED="N",NOT NULL;
+LABEL passexp    : pe, TEXT=%"Password Expires:",JUSTIFY=RIGHT;
+DATEEDIT p002 = DEF_LOGIN_TABLE.pass_expire, NOT NULL, TABINDEX=9;
+PHANTOM DEF_LOGIN_TABLE.salt;
+PHANTOM DEF_LOGIN_TABLE.pass_hash;
+PHANTOM DEF_LOGIN_TABLE.hash_type;
+LABEL user_type	 : ut, TEXT=%"User Type:",JUSTIFY=RIGHT;
+COMBOBOX f009 = DEF_LOGIN_TABLE.acc_type,INITIALIZER=pop_combo,DEFAULT=1,NOT NULL, TABINDEX=7;
+
+LABEL passwd : pw, TEXT=%"Password:", JUSTIFY=RIGHT;
+BUTTONEDIT p001 = FORMONLY.l_login_pass, INVISIBLE, VERIFY, NOT NULL, TABINDEX=8, ACTION=generate, IMAGE="fa-cog";
+
+LABEL acct_id    : lc, TEXT=%"Account Id:",JUSTIFY=RIGHT;
+f001 = DEF_APPUSERS_TABLE.acct_id, DEFAULT=0;
+LABEL emp_no : em, TEXT=%"Employee No:",JUSTIFY=RIGHT;
+f002 = DEF_APPUSERS_TABLE.employee_no, DEFAULT=0;
+LABEL salutation : sl, TEXT=%"Saluation:",JUSTIFY=RIGHT;
+f003 = DEF_APPUSERS_TABLE.salutation, TABINDEX=2;
+LABEL forenames	 : fn, TEXT=%"First Name:",JUSTIFY=RIGHT;
+f004 = DEF_APPUSERS_TABLE.forenames, NOT NULL, REQUIRED, TABINDEX=3;
+LABEL surname : sn, TEXT=%"Last Name:",JUSTIFY=RIGHT;
+f005 = DEF_APPUSERS_TABLE.surname, NOT NULL, REQUIRED, TABINDEX=4;
+LABEL position : ps, TEXT=%"Job Title:",JUSTIFY=RIGHT;
+f006 = DEF_APPUSERS_TABLE.position, TABINDEX=5;
+LABEL prole : cm, TEXT=%"Role(s):",JUSTIFY=RIGHT;
+TEXTEDIT f008 = DEF_APPUSERS_TABLE.primary_role, TABINDEX=6;
+
+LABEL st_date : st_date, TEXT=%"Start Date",JUSTIFY=RIGHT;
+DATEEDIT a001 = DEF_APPUSERS_TABLE.start_date;
+LABEL ed_date : ed_date, TEXT=%"End Date",JUSTIFY=RIGHT;
+DATEEDIT a002 = DEF_APPUSERS_TABLE.termination_date;
+LABEL dob : dob, TEXT=%"D.O.B.",JUSTIFY=RIGHT;
+DATEEDIT a003 = DEF_APPUSERS_TABLE.dob;
+LABEL holi_days : holi_days, TEXT=%"Holiday",JUSTIFY=RIGHT;
+a004 = DEF_APPUSERS_TABLE.holiday_days;
+LABEL holi_daysl : holi_daysl, TEXT=%"Holiday Left",JUSTIFY=RIGHT;
+a005 = DEF_APPUSERS_TABLE.holiday_days_left;
+
+TEXTEDIT rules = FORMONLY.l_rules, STRETCH=BOTH;
