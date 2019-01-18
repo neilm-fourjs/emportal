@@ -17,12 +17,13 @@ GRID
 [forcepwch |b]
 [passexp   |p002             ]
 [""]
+<G pgrp                                                         >
 [passwd    |p001                              ]
-[rules                                                            ]
-[                                                                 ]
-[                                                                 ]
-[                                                                 ]
-[""]
+[rules                                                         ]
+[                                                              ]
+[                                                              ]
+[                                                              ]
+<                                                               >
 [emp_no    |f002           ]
 [salutation|f003        ]
 [forenames |f004                                               ]
@@ -58,6 +59,7 @@ PHANTOM DEF_LOGIN_TABLE.hash_type;
 LABEL user_type	 : ut, TEXT=%"User Type:",JUSTIFY=RIGHT;
 COMBOBOX f009 = DEF_LOGIN_TABLE.acc_type,INITIALIZER=pop_combo,DEFAULT=1,NOT NULL, TABINDEX=7;
 
+GROUP pgrp : pgrp, TEXT=%"Password";
 LABEL passwd : pw, TEXT=%"Password:", JUSTIFY=RIGHT;
 BUTTONEDIT p001 = FORMONLY.l_login_pass, INVISIBLE, VERIFY, NOT NULL, TABINDEX=8, ACTION=generate, IMAGE="fa-cog";
 

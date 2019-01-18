@@ -23,6 +23,8 @@ FUNCTION em_details( l_mode CHAR(1), l_email STRING )
 	OPEN WINDOW w_em_details WITH FORM "em_details"
 
 	IF l_mode = "V" THEN -- View Only
+-- hide password group
+		CALL ui.Window.getCurrent().getForm().setElementHidden("pgrp", TRUE)
 		DISPLAY BY NAME l_rec1.*
 		DISPLAY BY NAME l_rec2.*
 		MENU "" ON ACTION back EXIT MENU END MENU
@@ -79,7 +81,7 @@ END FUNCTION
 FUNCTION pop_combo(l_cb)
 	DEFINE l_cb ui.ComboBox
 	CASE l_cb.getColumnName()
-		WHEN "acct_type"
+		WHEN "acc_type"
 			CALL l_cb.addItem(0,%"Normal User")
 			CALL l_cb.addItem(1,%"Admin User")
 	END CASE
