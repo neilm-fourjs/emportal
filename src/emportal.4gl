@@ -19,14 +19,14 @@ CONSTANT APP = %"Employee Portal"
 MAIN
 	DEFINE l_login STRING
 
-	OPEN FORM ld FROM "emportal"
-	DISPLAY FORM ld
+	OPEN FORM f1 FROM "emportal"
+	DISPLAY FORM f1
 	CALL gl_win_title_ver(APP,VER)
 	CALL gl_lib.gl_init(TRUE)
 
 	CALL gl_lib.db_connect()
 
-	DISPLAY "Welcome - please login" TO wel
+	DISPLAY %"Welcome - please login" TO wel
 
 	MENU
 		ON ACTION close EXIT MENU
@@ -37,13 +37,25 @@ MAIN
 			CALL DIALOG.setActionActive("act4", FALSE)
 
 		ON ACTION login
-			LET l_login = do_login()
-			IF l_login IS NOT NULL THEN
-				DISPLAY SFMT(%"Welcome %1",l_login) TO wel
-				CALL DIALOG.setActionActive("act1", TRUE)
-				CALL DIALOG.setActionActive("act2", TRUE)
-				CALL DIALOG.setActionActive("act3", TRUE)
-				CALL DIALOG.setActionActive("act4", TRUE)
+			IF l_login IS NULL THEN
+				LET l_login = do_login()
+				IF l_login IS NOT NULL THEN
+					DISPLAY SFMT(%"Welcome %1",l_login) TO wel
+					CALL DIALOG.setActionActive("act1", TRUE)
+					CALL DIALOG.setActionActive("act2", TRUE)
+					CALL DIALOG.setActionActive("act3", TRUE)
+					CALL DIALOG.setActionActive("act4", TRUE)
+					CALL ui.Window.getCurrent().getForm().setElementText("login",%"Logout")
+					CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-unlock")
+				END IF
+			ELSE
+				LET l_login = NULL
+				CALL ui.Window.getCurrent().getForm().setElementText("login",%"Login")
+				CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-lock")
+				CALL DIALOG.setActionActive("act1", FALSE)
+				CALL DIALOG.setActionActive("act2", FALSE)
+				CALL DIALOG.setActionActive("act3", FALSE)
+				CALL DIALOG.setActionActive("act4", FALSE)
 			END IF
 
 		ON ACTION act1 CALL em_details( "V", l_login )

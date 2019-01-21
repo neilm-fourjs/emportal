@@ -34,7 +34,6 @@ PUBLIC FUNCTION login(l_appname, l_ver, l_allow_new)
 
 	LET l_login = fgl_getenv("OPENID_email")
 
-	CALL  gl_lib.gl_logIt("before input for login")
 	INPUT BY NAME l_login, l_pass ATTRIBUTES(UNBUFFERED, WITHOUT DEFAULTS)
 		BEFORE INPUT
 			LET f = DIALOG.getForm()
@@ -58,8 +57,6 @@ PUBLIC FUNCTION login(l_appname, l_ver, l_allow_new)
 		ON ACTION forgotten CALL forgotten(l_login)
 	END INPUT
 	CLOSE WINDOW login
-
-	CALL  gl_lib.gl_logIt("after input for login:"||l_login)
 
 	RETURN l_login
 END FUNCTION

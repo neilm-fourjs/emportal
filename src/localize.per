@@ -1,0 +1,32 @@
+
+TOOLBAR
+	ITEM quit (TEXT=%"Quit", IMAGE="fa-power-off")
+	ITEM save (TEXT=%"Save", IMAGE="fa-disk")
+END -- TB
+LAYOUT (TEXT=%"Localize")
+VBOX
+GRID
+{
+Lang:[f000               ] Code:[f0]
+}
+END -- GRID
+TABLE
+{
+[f][f001                 |f002                  ]
+[f][f001                 |f002                  ]
+[f][f001                 |f002                  ]
+[f][f001                 |f002                  ]
+[f][f001                 |f002                  ]
+}
+END -- TABLE
+END -- VBOX
+
+ATTRIBUTES
+f000 = FORMONLY.lang;
+f0 = FORMONLY.code;
+CHECKBOX f = FORMONLY.done,VALUECHECKED=1, VALUEUNCHECKED=0, NOT NULL;
+f001 = FORMONLY.orig, TITLE="Original";
+f002 = FORMONLY.trans, TITLE="Transation";
+
+INSTRUCTIONS
+SCREEN RECORD strs ( FORMONLY.done THRU FORMONLY.trans )
