@@ -3,6 +3,7 @@ export FGLRESOURCEPATH=$(PWD)/etc
 export FGLDBPATH=$(PWD)/etc
 export FGLLDPATH=$(PWD)/bin
 export FGLPROFILE=$(FGLRESOURCEPATH)/profile.ifx:$(FGLRESOURCEPATH)/profile.ar
+export LANGCODE=ar
 #export LANG=ar_AE.8859-6
 #export CLIENT_LOCALE=$(LANG)
 

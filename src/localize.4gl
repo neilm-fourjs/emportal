@@ -29,8 +29,9 @@ MAIN
 
 	CALL getStrings()
 
-	DISPLAY ARRAY m_strs TO strs.*
+	DISPLAY ARRAY m_strs TO strs.* ATTRIBUTES(ACCEPT=FALSE, CANCEL=FALSE)
 		ON ACTION save CALL saveStringsToFile("../etc/strings_"||m_code||".str")
+		ON UPDATE	CALL upd_trans( arr_curr(), scr_line() )
 		ON ACTION quit EXIT DISPLAY
 	END DISPLAY
 
@@ -38,11 +39,17 @@ END MAIN
 --------------------------------------------------------------------------------
 FUNCTION getStrings()
 	CALL getStringsFromFile("../etc/strings_"||m_code||".str")
+	CALL getStringsFromFile("../etc/strings.str")
+END FUNCTION
+--------------------------------------------------------------------------------
+FUNCTION upd_trans( r SMALLINT, x SMALLINT )
+	LET int_flag = FALSE
+	INPUT m_strs[ r ].translated WITHOUT DEFAULTS FROM strs[x].trans
 END FUNCTION
 --------------------------------------------------------------------------------
 FUNCTION getStringsFromFile(l_file STRING)
 	DEFINE c base.Channel
-	DEFINE l_line STRING
+	DEFINE l_line, l_str STRING
 	DEFINE x SMALLINT
 	LET c = base.Channel.create()
 	CALL c.openFile(l_file,"r")
@@ -50,15 +57,28 @@ FUNCTION getStringsFromFile(l_file STRING)
 		LET l_line = c.readLine()
 		IF l_line.getLength() > 1 THEN
 			LET x = l_line.getIndexOf("\"",2)
-			CALL m_strs.appendElement()
-			LET m_strs[ m_strs.getLength() ].done = FALSE
-			LET m_strs[ m_strs.getLength() ].original = l_line.subString(2,x-1)
-			LET m_strs[ m_strs.getLength() ].translated = l_line.subString(x+3, l_line.getLength() - 1)
-			IF m_strs[ m_strs.getLength() ].original != m_strs[ m_strs.getLength() ].translated THEN
-				LET m_strs[ m_strs.getLength() ].done = TRUE
+			LET l_str = l_line.subString(2,x-1)
+			IF NOT chk_dup( l_str ) THEN
+				CALL m_strs.appendElement()
+				LET m_strs[ m_strs.getLength() ].done = FALSE
+				LET m_strs[ m_strs.getLength() ].original = l_str
+				LET m_strs[ m_strs.getLength() ].translated = l_line.subString(x+3, l_line.getLength() - 1)
+				IF l_str != m_strs[ m_strs.getLength() ].translated THEN
+					LET m_strs[ m_strs.getLength() ].done = TRUE
+				END IF
 			END IF
 		END IF
 	END WHILE
+END FUNCTION
+--------------------------------------------------------------------------------
+FUNCTION chk_dup(l_str STRING) RETURNS BOOLEAN
+	DEFINE x SMALLINT
+	FOR x = 1 TO m_strs.getLength() 
+		IF l_str.trim() = m_strs[ x ].original.trim() THEN
+			RETURN TRUE
+		END IF
+	END FOR
+	RETURN FALSE
 END FUNCTION
 --------------------------------------------------------------------------------
 FUNCTION saveStringsToFile(l_file STRING)

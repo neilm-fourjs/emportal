@@ -11,10 +11,16 @@ PUBLIC DEFINE m_dbname STRING
 
 FUNCTION gl_init(l_ui)
 	DEFINE l_ui BOOLEAN
+	DEFINE l_code CHAR(2)
 	LET m_ui = l_ui
 	LET m_logdir = gl_getLogDir()
 	LET m_logName = gl_getLogName()
 	CALL STARTLOG( m_logdir||m_logName||".err" )
+	LET l_code = fgl_getEnv("LANGCODE")
+	DISPLAY "Code:",l_code
+	IF l_code != "en" THEN
+		CALL ui.Interface.loadStyles("default_"||l_code)
+	END IF
 END FUNCTION
 
 ----------------------------------------------------------------------------------

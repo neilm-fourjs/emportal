@@ -6,11 +6,16 @@
   <RESOURCE Id="res.path.emportal" Source="INTERNAL">$(res.deployment.path)</RESOURCE>
   <EXECUTION>
     <ENVIRONMENT_VARIABLE Id="FGLRESOURCEPATH">$(res.path.emportal)/etc</ENVIRONMENT_VARIABLE>
-    <ENVIRONMENT_VARIABLE Id="FGLPROFILE">$(res.path.emportal)/etc/profile</ENVIRONMENT_VARIABLE>
+    <ENVIRONMENT_VARIABLE Id="FGLPROFILE">$(res.path.emportal)/etc/profile:$(res.path.emportal)/etc/profile.ar</ENVIRONMENT_VARIABLE>
     <ENVIRONMENT_VARIABLE Id="DBDATE">DMY4/</ENVIRONMENT_VARIABLE>
     <ENVIRONMENT_VARIABLE Id="DBNAME">emportal</ENVIRONMENT_VARIABLE>
-		<ENVIRONMENT_VARIABLE Id="LANGCODE">en</ENVIRONMENT_VARIABLE>
+		<ENVIRONMENT_VARIABLE Id="LANGCODE">ar</ENVIRONMENT_VARIABLE>
     <PATH>$(res.path.emportal)/bin</PATH>
     <MODULE>emportal.42r</MODULE>
   </EXECUTION>
+	<UA_OUTPUT>
+		<PROXY>$(res.uaproxy.cmd)</PROXY>
+		<PUBLIC_IMAGEPATH>$(res.public.resources)</PUBLIC_IMAGEPATH>
+		<GBC>gbc-clean-current</GBC>
+	</UA_OUTPUT>
 </APPLICATION>

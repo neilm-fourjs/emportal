@@ -19,10 +19,11 @@ CONSTANT APP = %"Employee Portal"
 MAIN
 	DEFINE l_login STRING
 
-	OPEN FORM f1 FROM "emportal"
-	DISPLAY FORM f1
 	CALL gl_win_title_ver(APP,VER)
 	CALL gl_lib.gl_init(TRUE)
+
+	OPEN FORM f1 FROM "emportal"
+	DISPLAY FORM f1
 
 	CALL gl_lib.db_connect()
 
