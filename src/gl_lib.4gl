@@ -10,19 +10,26 @@ PUBLIC DEFINE m_logDate BOOLEAN
 PUBLIC DEFINE m_dbname STRING
 
 FUNCTION gl_init(l_ui)
-	DEFINE l_ui BOOLEAN
-	DEFINE l_code CHAR(2)
+	DEFINE l_ui BOOLEAN 
 	LET m_ui = l_ui
 	LET m_logdir = gl_getLogDir()
 	LET m_logName = gl_getLogName()
 	CALL STARTLOG( m_logdir||m_logName||".err" )
-	LET l_code = fgl_getEnv("LANGCODE")
-	DISPLAY "Code:",l_code
-	IF l_code != "en" THEN
-		CALL ui.Interface.loadStyles("default_"||l_code)
-	END IF
+	DISPLAY "PWD:", os.path.pwd()
+	DISPLAY "FGLPROFILE:", fgl_getEnv("FGLPROFILE")
+	DISPLAY "Database Driver:", base.Application.getResourceEntry("dbi.default.driver")
+	DISPLAY "Strings:", base.Application.getResourceEntry("fglrun.localization.file.1.name")
+	DISPLAY "FGLRESOURCEPATH:", fgl_getEnv("FGLRESOURCEPATH")
+	CALL setLang( fgl_getEnv("LANGCODE") )
 END FUNCTION
-
+----------------------------------------------------------------------------------
+#+ Set Lang
+#+
+FUNCTION setLang(l_code CHAR(2))
+	DISPLAY "LANGCODE:",l_code
+	CALL base.Application.reloadResources("../etc:../etc_"||l_code)
+	DISPLAY "FGLRESOURCEPATH:",fgl_getEnv("FGLRESOURCEPATH")
+END FUNCTION
 ----------------------------------------------------------------------------------
 #+ Generic Windows message Dialog.  NOTE: This handles messages when there is no window!
 #+

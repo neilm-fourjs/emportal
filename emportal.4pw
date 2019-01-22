@@ -63,13 +63,13 @@
   </Settings>
   <LanguageList version="1.0"/>
   <PlatformList version="1.0"/>
-  <Group environment="value:LANGCODE=en,value:LANGxx=ar_AE.8859-6,value:FGLPROFILE=../etc/profile" label="emportal" language="Genero">
+  <Group environment="value:LANGCODE=ar,value:LANGxx=ar_AE.8859-6,value:FGLPROFILE=../etc/profile.strings:../etc/profile.sqt" label="emportal" language="Genero">
     <Library binaryName="Databases" id="1986" label="Databases">
       <File filePath="src/dbname.inc"/>
       <File filePath="etc/emportal.4db"/>
       <File filePath="src/schema.inc"/>
     </Library>
-    <Application binaryName="emportal" dependencies="14000,1986,1582713706" id="18736" label="emportal">
+    <Application binaryName="emportal" dependencies="14000,1986,1582713706,-271830000,612009204" id="18736" label="emportal">
       <File filePath="src/em_details.4gl"/>
       <File filePath="src/em_details.per"/>
       <File filePath="src/emportal.4gl"/>
@@ -77,11 +77,17 @@
     </Application>
     <Library binaryName="etc" id="-271830000" label="etc">
       <File filePath="etc/default.4ad"/>
-      <File filePath="etc/default.4st"/>
-      <File filePath="etc/default_ar.4st"/>
-      <File filePath="etc/profile"/>
-      <File filePath="etc/profile.ar"/>
       <File filePath="etc/profile.ifx"/>
+      <File filePath="etc/profile.sqt"/>
+      <File filePath="etc/profile.strings"/>
+    </Library>
+    <Library binaryName="etc_ar" id="491333975" label="etc_ar" targetDirectory="$(ProjectDir)/etc_ar">
+      <File filePath="etc_ar/default.4st"/>
+      <File filePath="etc_ar/strings.str"/>
+    </Library>
+    <Library binaryName="etc_en" id="612009204" label="etc_en" targetDirectory="$(ProjectDir)/etc_en">
+      <File filePath="etc/default.4st"/>
+      <File filePath="etc_en/strings.str"/>
     </Library>
     <Library binaryName="gas" id="-406832580" label="gas">
       <File filePath="gas/emportal.xcf"/>
@@ -97,11 +103,13 @@
       <File filePath="src/login.per"/>
     </Library>
     <Group label="Packages">
-      <Package binaryName="emportal" dependencies="18736,-271830000,-406832580,1986" label="emportal" platform="Genero Application Server">
+      <Package binaryName="emportal" dependencies="18736,-271830000,-406832580,1986,14000,1582713706,491333975,612009204" label="emportal" platform="Genero Application Server">
         <DynamicProperty name="packageId" value="EmployeePortal"/>
         <DynamicProperty name="packageLabel" value="EmployeePortal"/>
         <Directory destinationDirectory="$(ProjectDir)/bin/bin" includedFiles="*.42?" label="bin" sourceDirectory="$(ProjectDir)/bin"/>
         <Directory destinationDirectory="$(ProjectDir)/bin/etc" label="etc" sourceDirectory="$(ProjectDir)/etc"/>
+        <Directory destinationDirectory="$(ProjectDir)/bin/etc_ar" label="etc_ar" sourceDirectory="$(ProjectDir)/etc_ar"/>
+        <Directory destinationDirectory="$(ProjectDir)/bin/etc_en" label="etc_en" sourceDirectory="$(ProjectDir)/etc_en"/>
         <Directory destinationDirectory="$(ProjectDir)" label="gas" sourceDirectory="$(ProjectDir)/gas"/>
       </Package>
     </Group>

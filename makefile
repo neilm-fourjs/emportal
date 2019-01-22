@@ -1,9 +1,9 @@
 
-export FGLRESOURCEPATH=$(PWD)/etc
+export LANGCODE=en
+export FGLRESOURCEPATH=$(PWD)/etc:$(PWD)/etc_$(LANGCODE)
 export FGLDBPATH=$(PWD)/etc
 export FGLLDPATH=$(PWD)/bin
-export FGLPROFILE=$(FGLRESOURCEPATH)/profile.ifx:$(FGLRESOURCEPATH)/profile.ar
-export LANGCODE=ar
+export FGLPROFILE=$(PWD)/etc/profile.ifx:$(PWD)/etc/profile.strings
 #export LANG=ar_AE.8859-6
 #export CLIENT_LOCALE=$(LANG)
 
@@ -20,17 +20,20 @@ mkdb: bin_mk_db/mk_db.42r
 	cd bin_mk_db && fglrun mk_db.42r
 
 
-strings: etc/strings.42s etc/strings_ar.42s
+strings: etc_en/strings.42s etc_ar/strings.42s
 
-etc/strings.str: src/*.per src/*.4gl
+etc_en/strings.str: src/*.per src/*.4gl
 	cd src;for f in *.per; do fglform -m $$f >> strings.str; done;
 	cd src;for f in *.4gl; do fglcomp -m $$f >> strings.str; done;
-	cd src; cat strings.str | sort | uniq > ../etc/strings.str	
+	cd src; cat strings.str | sort | uniq > ../etc_en/strings.str	
 	cd src; rm *.str
 
-etc/strings.42s: etc/strings.str
-	cd etc; fglmkstr strings.str
+etc_en/strings.42s: etc_en/strings.str
+	cd etc_en; fglmkstr strings.str
 
-etc/strings_ar.42s: etc/strings_ar.str
-	cd etc; fglmkstr strings_ar.str
+etc_ar/strings.42s: etc_ar/strings.str
+	cd etc_ar; fglmkstr strings.str
 
+
+clean:
+	find . -name \*.42? -exec rm {} \;

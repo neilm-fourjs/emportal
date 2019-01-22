@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="ANSI_X3.4-1968"?>
 
 <StyleList>
-  <Style name=".okay">
-    <StyleAttribute name="backgroundColor" value="#D5FFD5" />
-  </Style>
-  <Style name=".error">
-    <StyleAttribute name="backgroundColor" value="#FFD5D5" />
-  </Style>
-  <Style name=".warning">
-    <StyleAttribute name="backgroundColor" value="#FFFFD5" />
-  </Style>
+	<!-- Arabic - used by GBC -->
+	<Style name="UserInterface">
+		 <StyleAttribute name="reverse" value="yes" />
+	</Style>
+
+	<Style name=".okay">
+		<StyleAttribute name="backgroundColor" value="#D5FFD5" />
+	</Style>
+	<Style name=".error">
+		<StyleAttribute name="backgroundColor" value="#FFD5D5" />
+	</Style>
+	<Style name=".warning">
+		<StyleAttribute name="backgroundColor" value="#FFFFD5" />
+	</Style>
 	<Style name=".noborder">
 		<StyleAttribute name="border" value="none" />
 	</Style>
@@ -22,12 +27,12 @@
 	<Style name=".transparent">
 		<StyleAttribute name="backgroundColor" value="transparent" />
 	</Style>
-  <Style name=".big">
-    <StyleAttribute name="fontSize" value="1.5em" />
-  </Style>
-  <Style name=".small">
-    <StyleAttribute name="fontSize" value=".8em" />
-  </Style>
+	<Style name=".big">
+		<StyleAttribute name="fontSize" value="1.5em" />
+	</Style>
+	<Style name=".small">
+		<StyleAttribute name="fontSize" value=".8em" />
+	</Style>
 
 	<Style name=".titl">
 		<StyleAttribute name="fontWeight" value="bold" />
@@ -73,7 +78,7 @@
 
 	<Style name="Window">
 		<StyleAttribute name="windowType" value="normal" />
-    <StyleAttribute name="actionPanelPosition" value="none" />
+		<StyleAttribute name="actionPanelPosition" value="none" />
 		<StyleAttribute name="ringMenuPosition" value="none" />
 	</Style>
 	<Style name="Window.main">
@@ -90,12 +95,12 @@
 		<StyleAttribute name="statusBarType" value="panels4" />
 	</Style>
 
-  <Style name="Window.main3">
-    <StyleAttribute name="windowType" value="normal" />
-    <StyleAttribute name="actionPanelPosition" value="none" />
-    <StyleAttribute name="ringMenuPosition" value="none" />
-    <StyleAttribute name="toolBarPosition" value="none" />
-  </Style>
+	<Style name="Window.main3">
+		<StyleAttribute name="windowType" value="normal" />
+		<StyleAttribute name="actionPanelPosition" value="none" />
+		<StyleAttribute name="ringMenuPosition" value="none" />
+		<StyleAttribute name="toolBarPosition" value="none" />
+	</Style>
 	<Style name="Window.dialog">
 		<StyleAttribute name="windowType" value="modal" />
 		<StyleAttribute name="sizable" value="no" />
