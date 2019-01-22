@@ -57,7 +57,7 @@ PUBLIC FUNCTION login(l_appname, l_ver, l_allow_new)
 		ON ACTION forgotten CALL forgotten(l_login)
 
 		ON ACTION lang
-			CALL gl_lib.setLang(NULL)
+			CALL setLang(NULL)
 			LET l_login = "change_lang"
 			EXIT INPUT
 	END INPUT
@@ -245,3 +245,20 @@ PRIVATE FUNCTION passchg(l_login) RETURNS BOOLEAN
 	RETURN TRUE
 END FUNCTION
 --------------------------------------------------------------------------------
+#+ Set Lang
+#+
+#+ @param l_code Language code: en, ar
+FUNCTION setLang(l_code CHAR(2))
+	IF l_code IS NULL THEN
+		IF m_lang = "en" THEN
+			LET l_code = "ar"
+		ELSE
+			LET l_code = "en"
+		END IF
+	END IF
+	DISPLAY "LANGCODE:",l_code
+	CALL base.Application.reloadResources("../etc:../etc_"||l_code)
+	DISPLAY "FGLRESOURCEPATH:",fgl_getEnv("FGLRESOURCEPATH")
+	CALL fgl_setEnv("LANGCODE",l_code)
+	LET m_lang = l_code
+END FUNCTION

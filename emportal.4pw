@@ -86,7 +86,7 @@
       <File filePath="etc_ar/strings.str"/>
     </Library>
     <Library binaryName="etc_en" id="612009204" label="etc_en" targetDirectory="$(ProjectDir)/etc_en">
-      <File filePath="etc/default.4st"/>
+      <File filePath="etc_en/default.4st"/>
       <File filePath="etc_en/strings.str"/>
     </Library>
     <Library binaryName="gas" id="-406832580" label="gas">
