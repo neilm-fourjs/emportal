@@ -55,6 +55,10 @@ PUBLIC FUNCTION login(l_appname, l_ver, l_allow_new)
 			LET l_login = "NEW"
 			EXIT INPUT
 		ON ACTION forgotten CALL forgotten(l_login)
+
+		ON ACTION lang
+			CALL gl_lib.setLang(NULL)
+			CALL ui.Interface.refresh()
 	END INPUT
 	CLOSE WINDOW login
 

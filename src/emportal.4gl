@@ -16,8 +16,10 @@ IMPORT FGL gl_lib
 CONSTANT VER = "1.1"
 CONSTANT APP = %"Employee Portal"
 
+DEFINE m_login STRING
+
 MAIN
-	DEFINE l_login STRING
+
 
 	CALL gl_win_title_ver(APP,VER)
 	CALL gl_lib.gl_init(TRUE)
@@ -28,38 +30,19 @@ MAIN
 	CALL gl_lib.db_connect()
 
 	DISPLAY %"Welcome - please login" TO wel
+	LET m_login = do_login()
+	IF m_login IS NULL THEN EXIT PROGRAM END IF
 
 	MENU
 		ON ACTION close EXIT MENU
 		BEFORE MENU
-			CALL DIALOG.setActionActive("act1", FALSE)
-			CALL DIALOG.setActionActive("act2", FALSE)
-			CALL DIALOG.setActionActive("act3", FALSE)
-			CALL DIALOG.setActionActive("act4", FALSE)
+			CALL set_actions( DIALOG )
 
 		ON ACTION login
-			IF l_login IS NULL THEN
-				LET l_login = do_login()
-				IF l_login IS NOT NULL THEN
-					DISPLAY SFMT(%"Welcome %1",l_login) TO wel
-					CALL DIALOG.setActionActive("act1", TRUE)
-					CALL DIALOG.setActionActive("act2", TRUE)
-					CALL DIALOG.setActionActive("act3", TRUE)
-					CALL DIALOG.setActionActive("act4", TRUE)
-					CALL ui.Window.getCurrent().getForm().setElementText("login",%"Logout")
-					CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-unlock")
-				END IF
-			ELSE
-				LET l_login = NULL
-				CALL ui.Window.getCurrent().getForm().setElementText("login",%"Login")
-				CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-lock")
-				CALL DIALOG.setActionActive("act1", FALSE)
-				CALL DIALOG.setActionActive("act2", FALSE)
-				CALL DIALOG.setActionActive("act3", FALSE)
-				CALL DIALOG.setActionActive("act4", FALSE)
-			END IF
+			LET m_login = do_login()
+			CALL set_actions( DIALOG )
 
-		ON ACTION act1 CALL em_details( "V", l_login )
+		ON ACTION act1 CALL em_details( "V", m_login )
 		ON ACTION act2 CALL gl_lib.gl_winMessage("Demo","Not Done Yet","information")
 		ON ACTION act3 CALL gl_lib.gl_winMessage("Demo","Not Done Yet","information")
 		ON ACTION act4 CALL gl_lib.gl_winMessage("Demo","Not Done Yet","information")
@@ -87,3 +70,21 @@ FUNCTION do_login() RETURNS STRING
 	RETURN NULL
 END FUNCTION
 --------------------------------------------------------------------------------
+FUNCTION set_actions(d ui.Dialog)
+	IF m_login IS NOT NULL THEN
+		DISPLAY SFMT(%"Welcome %1",m_login) TO wel
+		CALL d.setActionActive("act1", TRUE)
+		CALL d.setActionActive("act2", TRUE)
+		CALL d.setActionActive("act3", TRUE)
+		CALL d.setActionActive("act4", TRUE)
+		CALL ui.Window.getCurrent().getForm().setElementText("login",%"Logout")
+		CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-unlock")
+	ELSE
+		CALL ui.Window.getCurrent().getForm().setElementText("login",%"Login")
+		CALL ui.Window.getCurrent().getForm().setElementImage("login","fa-lock")
+		CALL d.setActionActive("act1", FALSE)
+		CALL d.setActionActive("act2", FALSE)
+		CALL d.setActionActive("act3", FALSE)
+		CALL d.setActionActive("act4", FALSE)
+	END IF
+END FUNCTION

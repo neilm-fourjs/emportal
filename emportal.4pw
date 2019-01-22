@@ -63,7 +63,7 @@
   </Settings>
   <LanguageList version="1.0"/>
   <PlatformList version="1.0"/>
-  <Group environment="value:LANGCODE=ar,value:LANGxx=ar_AE.8859-6,value:FGLPROFILE=../etc/profile.strings:../etc/profile.sqt" label="emportal" language="Genero">
+  <Group environment="value:LANGCODE=en,value:LANGxx=ar_AE.8859-6,value:FGLPROFILE=../etc/profile.strings:../etc/profile.sqt" label="emportal" language="Genero">
     <Library binaryName="Databases" id="1986" label="Databases">
       <File filePath="src/dbname.inc"/>
       <File filePath="etc/emportal.4db"/>

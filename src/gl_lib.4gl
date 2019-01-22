@@ -8,7 +8,7 @@ PUBLIC DEFINE m_logDir STRING
 PUBLIC DEFINE m_logName STRING
 PUBLIC DEFINE m_logDate BOOLEAN
 PUBLIC DEFINE m_dbname STRING
-
+PUBLIC DEFINE m_lang CHAR(2)
 FUNCTION gl_init(l_ui)
 	DEFINE l_ui BOOLEAN 
 	LET m_ui = l_ui
@@ -26,9 +26,17 @@ END FUNCTION
 #+ Set Lang
 #+
 FUNCTION setLang(l_code CHAR(2))
+	IF l_code IS NULL THEN
+		IF m_lang = "en" THEN
+			LET l_code = "ar"
+		ELSE
+			LET l_code = "en"
+		END IF
+	END IF
 	DISPLAY "LANGCODE:",l_code
 	CALL base.Application.reloadResources("../etc:../etc_"||l_code)
 	DISPLAY "FGLRESOURCEPATH:",fgl_getEnv("FGLRESOURCEPATH")
+	LET m_lang = l_code
 END FUNCTION
 ----------------------------------------------------------------------------------
 #+ Generic Windows message Dialog.  NOTE: This handles messages when there is no window!
