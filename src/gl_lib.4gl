@@ -20,7 +20,6 @@ FUNCTION gl_init(l_ui)
 	DISPLAY "Database Driver:", base.Application.getResourceEntry("dbi.default.driver")
 	DISPLAY "Strings:", base.Application.getResourceEntry("fglrun.localization.file.1.name")
 	DISPLAY "FGLRESOURCEPATH:", fgl_getEnv("FGLRESOURCEPATH")
-	CALL setLang( fgl_getEnv("LANGCODE") )
 END FUNCTION
 ----------------------------------------------------------------------------------
 #+ Set Lang

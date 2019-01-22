@@ -10,8 +10,8 @@ export FGLPROFILE=$(PWD)/etc/profile.ifx:$(PWD)/etc/profile.strings
 bin/emportal.42r: src/*.4gl src/*.per
 	gsmake emportal.4pw
 
-run: bin/emportal.42r strings
-	cd bin && fglrun emportal.42r
+run: bin/login.42r bin/emportal.42r strings
+	cd bin && fglrun login.42r
 
 bin_mk_db/mk_db.42r: src/mk_db.4gl src/gl_lib.4gl src/lib_secure.4gl src/dbname.inc
 	gsmake -t mk_db emportal.4pw

@@ -58,7 +58,8 @@ PUBLIC FUNCTION login(l_appname, l_ver, l_allow_new)
 
 		ON ACTION lang
 			CALL gl_lib.setLang(NULL)
-			CALL ui.Interface.refresh()
+			LET l_login = "change_lang"
+			EXIT INPUT
 	END INPUT
 	CLOSE WINDOW login
 
