@@ -115,7 +115,7 @@
     </Group>
   </Group>
   <Group label="utils" language="Genero">
-    <Application binaryName="localize" dependencies="1986,14000" id="-982604288" label="localize">
+    <Application binaryName="localize" dependencies="1986,14000,-271830000,612009204" id="-982604288" label="localize">
       <File filePath="src/localize.4gl"/>
       <File filePath="src/localize.per"/>
     </Application>

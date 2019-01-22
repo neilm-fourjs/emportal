@@ -30,7 +30,7 @@ MAIN
 	CALL getStrings()
 
 	DISPLAY ARRAY m_strs TO strs.* ATTRIBUTES(ACCEPT=FALSE, CANCEL=FALSE)
-		ON ACTION save CALL saveStringsToFile("../etc/strings_"||m_code||".str")
+		ON ACTION save CALL saveStringsToFile("../etc_"||m_code||"/strings.str")
 		ON UPDATE	CALL upd_trans( arr_curr(), scr_line() )
 		ON ACTION quit EXIT DISPLAY
 	END DISPLAY
@@ -38,8 +38,8 @@ MAIN
 END MAIN
 --------------------------------------------------------------------------------
 FUNCTION getStrings()
-	CALL getStringsFromFile("../etc/strings_"||m_code||".str")
-	CALL getStringsFromFile("../etc/strings.str")
+	CALL getStringsFromFile("../etc_ar/strings.str")
+	CALL getStringsFromFile("../etc_en/strings.str")
 END FUNCTION
 --------------------------------------------------------------------------------
 FUNCTION upd_trans( r SMALLINT, x SMALLINT )
